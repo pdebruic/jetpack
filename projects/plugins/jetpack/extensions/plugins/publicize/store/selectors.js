@@ -5,6 +5,7 @@ import { get, isEqual } from 'lodash';
 import { select } from '@wordpress/data';
 import { __ } from '@wordpress/i18n';
 import createSelector from 'rememo';
+import { store as editorStore } from '@wordpress/editor';
 
 /**
  * Internal dependencies
@@ -263,16 +264,6 @@ export function getShareMessage() {
 	}
 
 	return '';
-}
-
-/**
- * Get the connections
- *
- * @param {object} state - State object.
- * @returns {Array} The connections.
- */
-export function getConnections( state ) {
-	return state.connections;
 }
 
 /**
