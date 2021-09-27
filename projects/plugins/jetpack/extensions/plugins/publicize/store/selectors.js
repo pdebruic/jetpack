@@ -5,7 +5,6 @@ import { get, isEqual } from 'lodash';
 import { select } from '@wordpress/data';
 import { __ } from '@wordpress/i18n';
 import createSelector from 'rememo';
-import { store as editorStore } from '@wordpress/editor';
 
 /**
  * Internal dependencies
