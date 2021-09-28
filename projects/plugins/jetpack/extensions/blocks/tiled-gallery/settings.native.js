@@ -24,15 +24,17 @@ const MIN_ROUNDED_CORNERS = 0;
 const MAX_ROUNDED_CORNERS = 20;
 const DEFAULT_ROUNDED_CORNERS = 2;
 
-const TiledGallerySettings = () => {
+const TiledGallerySettings = props => {
 	const horizontalSettingsDivider = usePreferredColorSchemeStyle(
 		styles.horizontalBorder,
 		styles.horizontalBorderDark
 	);
 
-	const [ columnNumber, setColumnNumber ] = useState( DEFAULT_COLUMNS );
-	const [ roundedCornerRadius, setRoundedCornerRadius ] = useState( DEFAULT_ROUNDED_CORNERS );
-	const [ linkToURL, setLinkToURL ] = useState( '' );
+	const { setAttributes, linkTo, columns, roundedCorners } = props;
+
+	const [ columnNumber, setColumnNumber ] = useState( columns ?? DEFAULT_COLUMNS );
+	const [ roundedCornerRadius, setRoundedCornerRadius ] = useState( roundedCorners ?? DEFAULT_ROUNDED_CORNERS );
+	const [ linkToURL, setLinkToURL ] = useState( linkTo ?? '' );
 
 	const linkSettingsOptions = {
 		url: {
@@ -54,6 +56,7 @@ const TiledGallerySettings = () => {
 					value={ columnNumber }
 					onChange={ value => {
 						setColumnNumber( value );
+						setAttributes( { columns: value });
 					} }
 				/>
 			</PanelBody>
@@ -65,6 +68,7 @@ const TiledGallerySettings = () => {
 					value={ roundedCornerRadius }
 					onChange={ value => {
 						setRoundedCornerRadius( value );
+						setAttributes( { roundedCorners: value });
 					} }
 				/>
 			</PanelBody>

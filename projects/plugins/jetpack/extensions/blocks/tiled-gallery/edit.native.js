@@ -29,6 +29,7 @@ import styles from './styles.scss';
 import TiledGallerySettings from './settings';
 
 const TILE_SPACING = 8;
+const DEFAULT_COLUMNS = 1;
 
 export function defaultColumnsNumber( images ) {
 	return Math.min( 3, images.length );
@@ -38,7 +39,7 @@ const TiledGalleryEdit = props => {
 	const [ resizeObserver, sizes ] = useResizeObserver();
 	const [ maxWidth, setMaxWidth ] = useState( 0 );
 
-	const { className, clientId, noticeUI, onFocus } = props;
+	const { className, clientId, noticeUI, onFocus, setAttributes, attributes: { linkTo, columns, roundedCorners } } = props;
 
 	const { replaceInnerBlocks, updateBlockAttributes } = useDispatch( blockEditorStore );
 
@@ -46,8 +47,15 @@ const TiledGalleryEdit = props => {
 		const { width } = sizes || {};
 		if ( width ) {
 			setMaxWidth( width );
+
+			if ( columns ) {
+				const columnWidths = new Array( columns ).fill( Math.floor( width / columns ) );
+				setAttributes({ columnWidths });
+			} else {
+				setAttributes({ columnWidths: [] })
+			}
 		}
-	}, [ sizes ] );
+	}, [ sizes, columns ] );
 
 	const innerBlockImages = useSelect(
 		select => {
@@ -75,6 +83,15 @@ const TiledGalleryEdit = props => {
 				id: newImage.id,
 			} );
 		} );
+		
+		const newIds = images?.map(image => image.id);
+		setAttributes({ ids: newIds });
+	}, [ images ] );
+
+	useEffect( () => {
+		if ( ! columns ) {
+			setAttributes( { columns: DEFAULT_COLUMNS });
+		}
 	}, [ images ] );
 
 	const onSelectImages = imgs => {
@@ -134,7 +151,12 @@ const TiledGalleryEdit = props => {
 	return (
 		<View blockProps={ blockProps }>
 			{ resizeObserver }
-			<TiledGallerySettings />
+			<TiledGallerySettings
+				setAttributes={ props.setAttributes }
+				linkTo={ linkTo }
+				columns={ columns }
+				roundedCorners={ roundedCorners }
+			/>
 			<View { ...innerBlocksProps } />
 			<View style={ [ styles.galleryAppender ] }>{ mediaPlaceholder }</View>
 		</View>
