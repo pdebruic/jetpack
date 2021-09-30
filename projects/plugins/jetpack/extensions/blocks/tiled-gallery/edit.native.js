@@ -39,7 +39,14 @@ const TiledGalleryEdit = props => {
 	const [ resizeObserver, sizes ] = useResizeObserver();
 	const [ maxWidth, setMaxWidth ] = useState( 0 );
 
-	const { className, clientId, noticeUI, onFocus, setAttributes, attributes: { linkTo, columns, roundedCorners } } = props;
+	const {
+		className,
+		clientId,
+		noticeUI,
+		onFocus,
+		setAttributes,
+		attributes: { linkTo, columns, roundedCorners },
+	} = props;
 
 	const { replaceInnerBlocks, updateBlockAttributes } = useDispatch( blockEditorStore );
 
@@ -50,9 +57,9 @@ const TiledGalleryEdit = props => {
 
 			if ( columns ) {
 				const columnWidths = new Array( columns ).fill( Math.floor( width / columns ) );
-				setAttributes({ columnWidths });
+				setAttributes( { columnWidths: [ columnWidths ] } );
 			} else {
-				setAttributes({ columnWidths: [] })
+				setAttributes( { columnWidths: [] } );
 			}
 		}
 	}, [ sizes, columns ] );
@@ -83,14 +90,14 @@ const TiledGalleryEdit = props => {
 				id: newImage.id,
 			} );
 		} );
-		
-		const newIds = images?.map(image => image.id);
-		setAttributes({ ids: newIds });
+
+		const newIds = images?.map( image => image.id );
+		setAttributes( { ids: newIds } );
 	}, [ images ] );
 
 	useEffect( () => {
 		if ( ! columns ) {
-			setAttributes( { columns: DEFAULT_COLUMNS });
+			setAttributes( { columns: DEFAULT_COLUMNS } );
 		}
 	}, [ images ] );
 
