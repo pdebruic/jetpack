@@ -45,7 +45,7 @@ const TiledGalleryEdit = props => {
 		noticeUI,
 		onFocus,
 		setAttributes,
-		attributes: { linkTo, columns, roundedCorners },
+		attributes: { columns, images: attributeImages, linkTo, roundedCorners },
 	} = props;
 
 	const { replaceInnerBlocks, updateBlockAttributes } = useDispatch( blockEditorStore );
@@ -101,7 +101,7 @@ const TiledGalleryEdit = props => {
 		}
 	}, [ images ] );
 
-	const onSelectImages = imgs => {
+	const populateInnerBlocksWithImages = ( imgs, replace = false ) => {
 		const newBlocks = imgs.map( image => {
 			return createBlock( 'core/image', {
 				id: image.id,
@@ -111,8 +111,12 @@ const TiledGalleryEdit = props => {
 			} );
 		} );
 
-		replaceInnerBlocks( clientId, concat( innerBlockImages, newBlocks ) );
+		replaceInnerBlocks( clientId, replace ? newBlocks : concat( innerBlockImages, newBlocks ) );
 	};
+
+	if ( attributeImages.length && ! images.length ) {
+		populateInnerBlocksWithImages( attributeImages, true );
+	}
 
 	const innerBlocksProps = useInnerBlocksProps(
 		{},
@@ -141,7 +145,7 @@ const TiledGalleryEdit = props => {
 				title: __( 'Tiled Gallery', 'jetpack' ),
 				name: __( 'images', 'jetpack' ),
 			} }
-			onSelect={ onSelectImages }
+			onSelect={ populateInnerBlocksWithImages }
 			accept="image/*"
 			allowedTypes={ ALLOWED_MEDIA_TYPES }
 			multiple
