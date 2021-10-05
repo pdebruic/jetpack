@@ -1,0 +1,4 @@
+Significance: minor
+Type: other
+
+Adjust test which relies on the "remoteRegister" XMLRPC method now being registered by the Connection package
