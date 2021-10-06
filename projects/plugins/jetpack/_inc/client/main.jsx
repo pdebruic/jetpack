@@ -60,6 +60,7 @@ import QueryRewindStatus from 'components/data/query-rewind-status';
 import { getRewindStatus } from 'state/rewind';
 import ReconnectModal from 'components/reconnect-modal';
 import { createInterpolateElement } from '@wordpress/element';
+import { ActivationScreen } from '@automattic/jetpack-licensing';
 
 const recommendationsRoutes = [
 	'/recommendations',
@@ -84,6 +85,7 @@ const settingsRoutes = [
 	'/discussion',
 	'/traffic',
 	'/privacy',
+	'/license/activation',
 ];
 
 class Main extends React.Component {
@@ -341,6 +343,9 @@ class Main extends React.Component {
 						userCanManageModules={ this.props.userCanManageModules }
 					/>
 				);
+				break;
+			case '/license/activation':
+				pageComponent = <ActivationScreen />;
 				break;
 			case '/recommendations':
 			case '/recommendations/site-type':
