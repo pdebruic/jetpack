@@ -85,7 +85,6 @@ const settingsRoutes = [
 	'/discussion',
 	'/traffic',
 	'/privacy',
-	'/license/activation',
 ];
 
 class Main extends React.Component {
@@ -345,7 +344,15 @@ class Main extends React.Component {
 				);
 				break;
 			case '/license/activation':
-				pageComponent = <ActivationScreen />;
+				navComponent = null;
+				pageComponent = (
+					<ActivationScreen
+						assetBaseUrl={ this.props.pluginBaseUrl }
+						lockImage="/images/jetpack-license-activation-with-lock.png"
+						siteRawUrl={ this.props.siteRawUrl }
+						successImage="/images/jetpack-license-activation-with-success.png"
+					/>
+				);
 				break;
 			case '/recommendations':
 			case '/recommendations/site-type':
